@@ -1,0 +1,49 @@
+# Règles qualité Odoo CANONIQUES — SoT (miroir vers Barramine64/odoo-quality-ci).
+# Exécuté par la CI GitHub des repos clients (workflow réutilisable) et localement.
+# ⚠️ La CELLULE n'exécute PAS pre-commit (pas d'egress GitHub au runtime) : elle lance ruff/pylint/
+#    oca/eslint/prettier EN DIRECT via `run-quality` — MÊMES versions (pins dans deploy/cellule.Dockerfile).
+#    Toute évolution de `rev:`/version ici doit être répercutée dans le Dockerfile (et inversement).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-yaml
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.20
+    hooks:
+      - id: ruff            # lint Python général (+ tri d'imports)
+        args: [--fix]
+      - id: ruff-format     # format Python
+
+  - repo: https://github.com/OCA/odoo-pre-commit-hooks
+    rev: v0.2.24
+    hooks:
+      - id: oca-checks-odoo-module   # manifeste + XML (vues/données) + CSV
+      - id: oca-checks-po            # fichiers de traduction .po
+
+  - repo: local
+    hooks:
+      - id: pylint-odoo
+        name: pylint-odoo (checks spécifiques Odoo)
+        entry: pylint
+        language: python
+        types: [python]
+        require_serial: true
+        args: [--rcfile=.pylintrc, --load-plugins=pylint_odoo, -sn]
+        additional_dependencies: [pylint-odoo==10.0.4]
+      - id: prettier
+        name: prettier (format front)
+        entry: prettier --write
+        language: node
+        files: ^.*/static/.*\.(js|css|scss)$
+        additional_dependencies: [prettier@3.9.4]
+      - id: eslint-owl
+        name: eslint (composants OWL)
+        entry: eslint --config eslint.config.cjs
+        language: node
+        files: ^.*/static/src/.*\.js$
+        additional_dependencies: [eslint@9.39.4, "@odoo/eslint-plugin-owl@1.1.0"]

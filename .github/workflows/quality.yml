@@ -1,0 +1,59 @@
+name: quality (reusable)
+# Workflow RÉUTILISABLE — appelé par le caller `.github/workflows/quality.yml` de chaque repo client
+# (uses: Barramine64/odoo-quality-ci/.github/workflows/quality.yml@v1). Il ne tourne JAMAIS seul (workflow_call).
+# 2 jobs : (1) pre-commit en DELTA (ruff/pylint-odoo/OCA/eslint/prettier), (2) titre de PR Conventional Commits.
+on:
+  workflow_call: {}
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du repo client (historique complet → delta base↔head)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Récupère les règles qualité (MÊME version que le caller a épinglée)
+        uses: actions/checkout@v4
+        with:
+          repository: Barramine64/odoo-quality-ci
+          ref: ${{ github.job_workflow_sha }}
+          path: ._quality
+      - name: Place la config canonique à la racine
+        run: cp ._quality/.pre-commit-config.yaml ._quality/ruff.toml ._quality/.pylintrc
+             ._quality/eslint.config.cjs ._quality/.prettierrc .
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Installe pre-commit
+        run: pip install pre-commit==4.6.0
+      - name: Lint DELTA (fichiers changés uniquement — pas la dette pré-existante)
+        run: pre-commit run
+             --from-ref ${{ github.event.pull_request.base.sha }}
+             --to-ref ${{ github.event.pull_request.head.sha }}
+             --show-diff-on-failure
+
+  conventional-commits:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Titre de PR en Conventional Commits
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            ci
+            docs
+            refactor
+            test
+            chore
+            perf
+            build
+            style
