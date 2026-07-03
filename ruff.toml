@@ -15,3 +15,12 @@ ignore = [
 [lint.per-file-ignores]
 "__init__.py" = ["F401"]        # ré-exports de modèles/contrôleurs
 "__manifest__.py" = ["B018"]    # le manifeste = un dict littéral en expression de module
+
+# Ticket #3 — imports en 4 paragraphes officiels Odoo : stdlib / externe / `odoo` / `odoo.addons`.
+# Sans ça, `odoo` et `odoo.addons` tombent dans le même bloc « tierce partie ». `I` (isort) les impose.
+[lint.isort]
+section-order = ["future", "standard-library", "third-party", "odoo", "odoo-addons", "first-party", "local-folder"]
+
+[lint.isort.sections]
+"odoo" = ["odoo"]                # framework : from odoo import ...
+"odoo-addons" = ["odoo.addons"]  # autres modules : from odoo.addons.x import ... (préfixe + spécifique)

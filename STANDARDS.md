@@ -30,7 +30,8 @@ mon_module/
 ```
 
 ## Conventions
-- **Python** : `snake_case`, imports triés (ruff `I`), pas de `print` (logger), pas de `except: pass`.
+- **Python** : `snake_case`, imports en **4 paragraphes** (stdlib / externe / `odoo` / `odoo.addons` — ruff
+  `I`, section `[lint.isort]`), pas de `print` (logger), pas de `except: pass`.
 - **ORM** : pas de SQL brut injectable (`sql-injection`), `sudo()` justifié, pas d'écriture dans un `compute`,
   méthodes `_compute_*`/`_search_*`/`_inverse_*` nommées, `super()` respecté.
 - **Traductions** : **lazy** (`_()` au bon endroit, pas de concaténation/f-string traduite).
@@ -45,6 +46,13 @@ mon_module/
   revient à l'agent (jamais de commit non-conforme).
 - **CI GitHub (sur la PR)** : le workflow réutilisable rejoue `pre-commit` en **delta** (base→HEAD) + vérifie
   le titre de PR (Conventional Commits). Voir `Barramine64/odoo-quality-ci`.
+
+## Voir aussi — guidelines hors périmètre du lint
+[`../odoo-guidelines/`](../odoo-guidelines/) (dossier **frère**, hors miroir CI) porte les **règles officielles
+Odoo que le lint ne peut PAS vérifier** (idiomes ORM, ordonnancement, conception pour l'héritage, sémantique
+de sécurité) + les **spécificités de version** (`../odoo-guidelines/versions/`). Servies à la cellule en skill
+`odoo-guidelines` (`../odoo-skill/`, ticket #3). Complémentaire, **sans duplication** : ici = imposé par le
+lint ; là-bas = jugement/idiome.
 
 ## Sync du miroir
 Ce dossier est **la source** (il EST le contenu du repo miroir : configs + workflow réutilisable + README).
