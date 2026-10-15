@@ -2,7 +2,7 @@
 
 > Source de vérité des règles qualité appliquées à **tout** le code Odoo produit (par les agents ou à la
 > main). Appliquées à 3 niveaux : (1) le prompt de l'agent, (2) un **gate machine dans la cellule**
-> (`run-quality`, avant tout commit), (3) une **CI GitHub** sur chaque PR (miroir `Barramine64/odoo-quality-ci`).
+> (`run-quality`, avant tout commit), (3) une **CI GitHub** sur chaque PR (miroir `erlesolutions/odoo-quality-ci`).
 > Les fichiers de ce dossier (`ruff.toml`, `.pylintrc`, `eslint.config.cjs`, `.prettierrc`,
 > `.pre-commit-config.yaml`) sont **la config exécutée** — ce document explique le « pourquoi ».
 
@@ -45,7 +45,7 @@ mon_module/
   --write`) puis gate en dur (ruff/pylint-odoo/OCA/eslint) sur les **fichiers touchés**. Rouge = la tâche
   revient à l'agent (jamais de commit non-conforme).
 - **CI GitHub (sur la PR)** : le workflow réutilisable rejoue `pre-commit` en **delta** (base→HEAD) + vérifie
-  le titre de PR (Conventional Commits). Voir `Barramine64/odoo-quality-ci`.
+  le titre de PR (Conventional Commits). Voir `erlesolutions/odoo-quality-ci`.
 
 ## Voir aussi — guidelines hors périmètre du lint
 [`../odoo-guidelines/`](../odoo-guidelines/) (dossier **frère**, hors miroir CI) porte les **règles officielles
@@ -56,6 +56,6 @@ lint ; là-bas = jugement/idiome.
 
 ## Sync du miroir
 Ce dossier est **la source** (il EST le contenu du repo miroir : configs + workflow réutilisable + README).
-Le repo `Barramine64/odoo-quality-ci` (consommé par la CI GitHub) en est le **miroir** : à toute évolution
+Le repo `erlesolutions/odoo-quality-ci` (consommé par la CI GitHub) en est le **miroir** : à toute évolution
 des règles, republier (`bash scripts/publish_quality.sh v1.0.1`) et l'alias `v1` suit. Les pins de version
 doivent rester alignés entre `.pre-commit-config.yaml` et `deploy/cellule.Dockerfile` (versions cellule ↔ CI).

@@ -14,7 +14,7 @@ on:
     types: [opened, edited, synchronize, reopened]
 jobs:
   quality:
-    uses: Barramine64/odoo-quality-ci/.github/workflows/quality.yml@v1
+    uses: erlesolutions/odoo-quality-ci/.github/workflows/quality.yml@v1
     permissions:
       contents: read
       pull-requests: read
@@ -29,7 +29,7 @@ Les versions doivent rester alignées avec `deploy/cellule.Dockerfile` de l'orch
 
 ## Local
 ```bash
-git clone --depth 1 --branch v1 https://github.com/Barramine64/odoo-quality-ci ._quality
+git clone --depth 1 --branch v1 https://github.com/erlesolutions/odoo-quality-ci ._quality
 cp ._quality/.pre-commit-config.yaml ._quality/ruff.toml ._quality/.pylintrc \
    ._quality/eslint.config.cjs ._quality/.prettierrc .
 uvx pre-commit run --from-ref origin/dev --to-ref HEAD

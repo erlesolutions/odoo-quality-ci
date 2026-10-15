@@ -20,5 +20,7 @@ enable=C8102,C8103,C8105,C8106,C8107,C8108,C8109,C8110,C8113,C8116,C8120,
     W8162,W8163,W8164,W8301,W8302,W8303
 
 [ODOOLINT]
-valid-odoo-versions=19.0
+# Toutes les séries servies (= ODOO_TAGS de deploy.sh, vérifié par test) : ce fichier est AUSSI la CI de TOUS
+# les clients. La cellule y re-pose sa série exacte au build (sed du Dockerfile) — le strict, c'est elle.
+valid-odoo-versions=19.0,20.0
 manifest-required-keys=name,version,author,license

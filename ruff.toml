@@ -1,4 +1,4 @@
-# Lint + format Python des modules Odoo (SoT — miroir vers Barramine64/odoo-quality-ci).
+# Lint + format Python des modules Odoo (SoT — miroir vers erlesolutions/odoo-quality-ci).
 # ruff couvre le Python GÉNÉRAL (style, imports, pyupgrade, bugbear) ; les checks SPÉCIFIQUES
 # Odoo (manifeste, xml_id, traductions, ORM) sont à pylint-odoo (.pylintrc). Version : ruff 0.15.20
 # — à garder synchro avec deploy/cellule.Dockerfile et .pre-commit-config.yaml.

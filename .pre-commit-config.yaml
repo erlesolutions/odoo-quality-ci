@@ -1,4 +1,4 @@
-# Règles qualité Odoo CANONIQUES — SoT (miroir vers Barramine64/odoo-quality-ci).
+# Règles qualité Odoo CANONIQUES — SoT (miroir vers erlesolutions/odoo-quality-ci).
 # Exécuté par la CI GitHub des repos clients (workflow réutilisable) et localement.
 # ⚠️ La CELLULE n'exécute PAS pre-commit (pas d'egress GitHub au runtime) : elle lance ruff/pylint/
 #    oca/eslint/prettier EN DIRECT via `run-quality` — MÊMES versions (pins dans deploy/cellule.Dockerfile).

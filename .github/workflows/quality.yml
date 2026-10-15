@@ -1,6 +1,6 @@
 name: quality (reusable)
 # Workflow RÉUTILISABLE — appelé par le caller `.github/workflows/quality.yml` de chaque repo client
-# (uses: Barramine64/odoo-quality-ci/.github/workflows/quality.yml@v1). Il ne tourne JAMAIS seul (workflow_call).
+# (uses: erlesolutions/odoo-quality-ci/.github/workflows/quality.yml@v1). Il ne tourne JAMAIS seul (workflow_call).
 # 2 jobs : (1) pre-commit en DELTA (ruff/pylint-odoo/OCA/eslint/prettier), (2) titre de PR Conventional Commits.
 on:
   workflow_call: {}
@@ -16,7 +16,7 @@ jobs:
       - name: Récupère les règles qualité (MÊME version que le caller a épinglée)
         uses: actions/checkout@v4
         with:
-          repository: Barramine64/odoo-quality-ci
+          repository: erlesolutions/odoo-quality-ci
           ref: ${{ github.job_workflow_sha }}
           path: ._quality
       - name: Place la config canonique à la racine
